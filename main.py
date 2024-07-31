@@ -1,32 +1,28 @@
 import asyncio
 import logging
 
-from aiogram import Bot, Dispatcher
-from aiogram.filters import CommandStart
+from aiogram import Bot, Dispatcher, F
+from aiogram.client.default import DefaultBotProperties
+from aiogram.enums import ParseMode
 from aiogram.types import Message
 from config import TOKEN
+from routers import router as main_router
 
-dp = Dispatcher()
-bot = Bot(token=TOKEN)
-
-
-@dp.message(CommandStart())
-async def command_start_handler(message: Message) -> None:
-    """
-    This handler receives messages with `/start` command
-    """
-    await message.answer(f"Hello, {message.from_user.full_name}")
-
-
-@dp.message()
-async def handler(message: Message):
-    await bot.send_message(
-        chat_id=message.chat.id,
-        text="Проверка бота"
-    )
+# @dp.message(F.audio)
+# async def handler_audio(message: Message):
+#     await message.bot.send_audio(
+#         chat_id=message.chat.id,
+#         audio=message.audio.file_id
+#     )
 
 
 async def main() -> None:
+    dp = Dispatcher()
+    dp.include_router(main_router)
+    bot = Bot(
+        token=TOKEN,
+        default=DefaultBotProperties(parse_mode=ParseMode.HTML)
+    )
     await dp.start_polling(bot)
 
 
