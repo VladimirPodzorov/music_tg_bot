@@ -1,7 +1,17 @@
 from typing import List
 
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
-from sqlalchemy.orm import sessionmaker, DeclarativeBase, relationship, backref, Mapped, mapped_column
+from sqlalchemy import create_engine, String, ForeignKey
+from sqlalchemy.orm import (
+    sessionmaker,
+    DeclarativeBase,
+    relationship,
+    Mapped,
+    mapped_column,
+)
+
+engine = create_engine("sqlite:///database.db")
+Session = sessionmaker(bind=engine)
+session = Session()
 
 
 class Base(DeclarativeBase):
@@ -47,3 +57,6 @@ class Song(Base):
     band: Mapped["Band"] = relationship(back_populates="song")
     album: Mapped["Album"] = relationship(back_populates="song")
 
+
+def init_db():
+    Base.metadata.create_all(bind=engine)

@@ -18,10 +18,7 @@ from routers import router as main_router
 async def main() -> None:
     dp = Dispatcher()
     dp.include_router(main_router)
-    bot = Bot(
-        token=TOKEN,
-        default=DefaultBotProperties(parse_mode=ParseMode.HTML)
-    )
+    bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     await dp.start_polling(bot)
 
 
