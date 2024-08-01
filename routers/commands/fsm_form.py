@@ -6,3 +6,4 @@ class Form(StatesGroup):
     album = State()
     year = State()
     song = State()
+    audio = State()
