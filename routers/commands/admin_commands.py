@@ -1,10 +1,11 @@
-from aiogram import Router
+from typing import Dict, Any
+
+from aiogram import Router, F
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
-from fsm_form import Form
-
+from routers.commands.fsm_form import Form
 
 router = Router(name=__name__)
 
@@ -41,3 +42,11 @@ async def add_song(message: Message, state: FSMContext):
     await state.update_data(song=message.text)
     await state.set_state(Form.audio)
     await message.answer("Отправьте аудио файл.")
+
+
+@router.message(Form.audio, F.audio)
+async def add_audio(message: Message, state: FSMContext):
+    audio_id = message.audio.file_id
+    data = await state.update_data(audio=audio_id)
+    await state.clear()
+    await message.answer("Done😉")
