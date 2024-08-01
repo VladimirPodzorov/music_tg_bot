@@ -36,6 +36,7 @@ class Album(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(50), nullable=False)
+    year: Mapped[str] = mapped_column(String(4), nullable=True)
     band_id: Mapped[int] = ForeignKey("Band.id")
 
     band: Mapped["Band"] = relationship(back_populates="album")
