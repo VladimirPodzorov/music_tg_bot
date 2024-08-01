@@ -34,3 +34,10 @@ async def add_year(message: Message, state: FSMContext):
     await state.update_data(year=message.text)
     await state.set_state(Form.song)
     await message.answer("Название песни?")
+
+
+@router.message(Form.song)
+async def add_song(message: Message, state: FSMContext):
+    await state.update_data(song=message.text)
+    await state.set_state(Form.audio)
+    await message.answer("Отправьте аудио файл.")
