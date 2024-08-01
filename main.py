@@ -5,14 +5,8 @@ from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from config import TOKEN
+from database.models import init_db
 from routers import router as main_router
-
-# @dp.message(F.audio)
-# async def handler_audio(message: Message):
-#     await message.bot.send_audio(
-#         chat_id=message.chat.id,
-#         audio=message.audio.file_id
-#     )
 
 
 async def main() -> None:
@@ -24,4 +18,5 @@ async def main() -> None:
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
+    init_db()
     asyncio.run(main())
