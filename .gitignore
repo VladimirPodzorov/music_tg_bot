@@ -139,3 +139,4 @@ dmypy.json
 .swp
 
 /module_15_networking_basics/homework/booking.db
+/database.db
