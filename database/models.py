@@ -37,7 +37,7 @@ class Album(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(50), nullable=False)
     year: Mapped[str] = mapped_column(String(4), nullable=False)
-    band_id: Mapped[int] = ForeignKey("Band.id")
+    band_id: Mapped[int] = mapped_column(ForeignKey("bands.id", ondelete="CASCADE"))
 
     band: Mapped["Band"] = relationship(back_populates="album")
     song: Mapped[List["Song"]] = relationship(back_populates="album")
@@ -52,8 +52,8 @@ class Song(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(50), nullable=False)
     tg_id: Mapped[str] = mapped_column(nullable=False)
-    band_id: Mapped[int] = ForeignKey("Band.id")
-    album_id: Mapped[int] = ForeignKey("Album.id")
+    band_id: Mapped[int] = mapped_column(ForeignKey("bands.id", ondelete="CASCADE"))
+    album_id: Mapped[int] = mapped_column(ForeignKey("albums.id", ondelete="CASCADE"))
 
     band: Mapped["Band"] = relationship(back_populates="song")
     album: Mapped["Album"] = relationship(back_populates="song")
