@@ -5,6 +5,7 @@ from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
+from database.crud import insert_value
 from routers.commands.fsm_form import Form
 
 router = Router(name=__name__)
@@ -49,4 +50,5 @@ async def add_audio(message: Message, state: FSMContext):
     audio_id = message.audio.file_id
     data = await state.update_data(audio=audio_id)
     await state.clear()
+    insert_value(data=data)
     await message.answer("Done😉")
