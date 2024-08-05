@@ -50,7 +50,8 @@ def get_artist(artist_name: str) -> List | None:
 
 def get_song(song_name: str) -> str:
     result = session.query(Song.tg_id).filter(Song.name == song_name).one_or_none()
-    return result
+    if result:
+        return result[0]
 
 
 def get_albums_or_song(user_message: str) -> List | str:
@@ -60,4 +61,12 @@ def get_albums_or_song(user_message: str) -> List | str:
     song = get_song(user_message)
     if song:
         return song
-    return "Такой музыки нет."
+
+
+def get_playlist(album: str) -> List:
+    album_subquery = session.query(Album.id).filter(Album.name == album).subquery()
+    songs = session.query(Song.tg_id).filter(Song.album_id.in_(album_subquery)).all()
+    songs_id = []
+    for song_id in songs:
+        songs_id.append(song_id[0])
+    return songs_id
