@@ -42,9 +42,22 @@ def insert_value(data: Dict):
         session.commit()
 
 
-def get_artist(artist_name: str) -> List | str:
-    # Нужно доработать!!!
+def get_artist(artist_name: str) -> List | None:
     result = session.query(Band).filter(Band.name == artist_name).one_or_none()
     if result:
         return list(album.name for album in result.album)
-    return "foo bar"
+
+
+def get_song(song_name: str) -> str:
+    result = session.query(Song.tg_id).filter(Song.name == song_name).one_or_none()
+    return result
+
+
+def get_albums_or_song(user_message: str) -> List | str:
+    albums = get_artist(user_message)
+    if albums:
+        return albums
+    song = get_song(user_message)
+    if song:
+        return song
+    return "Такой музыки нет."
