@@ -13,5 +13,7 @@ async def search_song(message: Message):
     result = get_albums_or_song(artist)
     if isinstance(result, list):
         await message.answer(text="Альбомы", reply_markup=build_artist_kb(result))
-    else:
-        await message.answer("backend пока не готов")
+    if isinstance(result, str):
+        await message.answer_audio(audio=result)
+    if result is None:
+        await message.answer("Исполнитель или песня не найдена.")
